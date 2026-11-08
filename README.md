@@ -1,75 +1,51 @@
-# React + TypeScript + Vite
+# PERTANYAAN
+1. State Management & Lifecycle
+2. Struktur Folder:
+3. Optimasi Kinerja (Performance)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- JAWABAN
+1. Statet Management & Lifecycle
+### State Managements
+- State managements yang saya pakai di project ini menggunkana  useStatte, useRef dan useEffect
+- useState : untuk kondisi yes or no atau jika ada data kosong atau data nya ada maka akan melakukan action seperti apa
+- useRef : adalah state menjalankan sebauh action tanpa merubah ui jadi users tidak tau apakah di balik layar gimana
+- useEffect : ini sebenarnya bukan state sih ini adalah fungsi dari bawaan js yang dimana untuk melakukan proses sebuah data yang di render untuk pertama kali atau sebagai nya
 
-Currently, two official plugins are available:
+### Lifecycle
+- Siklus hidup (Life Cycle) komponen React JS terbagi menjadi 3 fase 
+1. Mounting
+2. Updating
+3. Unmounting 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### mencegah infinte loopm
+```
+ useEffect(() => {
+        getallDataUsers()
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+        return () => {
+            if (debounse.current) {
+                clearTimeout(debounse.current)
+            }
+        }
+    }, [users])
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+- untuk mencegah infinet loop dan memory leak yang terlalu naik maka kita defisikan di bagian useeffect 
+untuk mendefisikan state users, yang dimana dia akan melakukan proses data sekali dan jika ada perubahan maka akan berdasarkan apakah ada perubahan di users ada atau tidak jika ada maka lakukan perubahan jika tidak yah tidak akan melakukan proses render api terus menerus
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+2. Struktur Folder:
+pada project ini aku pakai folder yang cukup mudah di pakai dan lebih fokuskan ke jadi MVP agar mudah
+selesai dan nanti akan pelan-pelan di ubah
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+folder-folder :
+- /components : folder ini adalah tempat pembuatan components
+- /hooks : adalah folder untuk hooks atau action yang akan di buat agar tidak menjadi satu dengan ui
+- /page : adalah folder untuk menyimpan letak page pada website
+- /layoust : adalah folder untuk menyimpan layouts-layouts sebauh webiste semisal halaman webiste, dashboard, dan login, register
+- router : adalah tempat mengarah url pada webiste ini dan pakai react-router-dom agar pas pindah-pindah tidak usah reload ulang semuanya
 
-```
+3. Optimasi Kinerja
+- permasalahan jika kondisi ada api request 1000 request
+- solusi nya adalah : gunakana sebuah state managements useMemo untuk memfilter pada request-request tertentu
+dan minta melakukan validasi jika banyak request maka request tersebut kita tahan beberapa request kenapa begitu agar
+UI/INTERFACE tidak lemot dan di bagian server tidak berat jadi harus imbang semuanya tidak boleh salah satua nya yang di prioritaskan
